@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be Fit Fitness Centre | Gain The Dream</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050508;
+    --dark: #0a0a10;
+    --darker: #07070c;
+    --blue: #0af;
+    --blue-bright: #00d4ff;
+    --blue-glow: rgba(0, 170, 255, 0.15);
+    --blue-mid: rgba(0, 170, 255, 0.4);
+    --white: #f0f4ff;
+    --muted: rgba(240,244,255,0.45);
+    --card-bg: rgba(10,12,22,0.75);
+    --border: rgba(0,170,255,0.12);
+    --border-hover: rgba(0,170,255,0.4);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 2px; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 70px;
+    background: rgba(5,5,8,0.0);
+    border-bottom: 1px solid transparent;
+    transition: all 0.5s ease;
+  }
+  nav.scrolled {
+    background: rgba(5,5,8,0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.6rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--blue); }
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--blue); }
+  .nav-cta {
+    background: var(--blue);
+    color: var(--black) !important;
+    padding: 0.5rem 1.4rem;
+    border-radius: 2px;
+    font-weight: 700 !important;
+    letter-spacing: 0.1em;
+    transition: box-shadow 0.3s, transform 0.2s !important;
+  }
+  .nav-cta:hover {
+    box-shadow: 0 0 24px rgba(0,170,255,0.5) !important;
+    transform: translateY(-1px);
+    color: var(--black) !important;
+  }
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px; cursor: pointer;
+    background: none; border: none; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 26px; height: 2px;
+    background: var(--white); transition: all 0.3s;
+  }
+  .mobile-menu {
+    display: none; position: fixed; inset: 0; z-index: 998;
+    background: rgba(5,5,8,0.98);
+    flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem;
+    backdrop-filter: blur(20px);
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2.5rem; letter-spacing: 0.1em;
+    color: var(--white); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--blue); }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 40%, rgba(0,120,200,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(0,170,255,0.08) 0%, transparent 60%),
+      linear-gradient(160deg, #050508 0%, #08101e 40%, #050508 100%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(0,170,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,170,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 80%);
+  }
+  .hero-scanlines {
+    position: absolute; inset: 0; z-index: 1;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    padding: 0 5vw;
+    max-width: 1000px;
+    animation: heroFadeIn 1.2s ease both;
+  }
+  @keyframes heroFadeIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 1.8rem;
+    animation: heroFadeIn 1s 0.2s ease both;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; display: block;
+    width: 36px; height: 1px; background: var(--blue);
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(5rem, 14vw, 12rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    text-shadow: 0 0 80px rgba(0,170,255,0.25);
+    animation: heroFadeIn 1s 0.4s ease both;
+  }
+  .hero-title .accent { color: var(--blue); }
+  .hero-sub {
+    font-family: 'Barlow', sans-serif;
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 1.6rem auto 2.8rem;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+    animation: heroFadeIn 1s 0.6s ease both;
+  }
+  .hero-rating {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 2.6rem;
+    padding: 0.5rem 1.2rem;
+    background: rgba(0,170,255,0.08);
+    border: 1px solid rgba(0,170,255,0.2);
+    border-radius: 100px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.88rem; font-weight: 600;
+    letter-spacing: 0.08em;
+    animation: heroFadeIn 1s 0.7s ease both;
+  }
+  .stars { color: #ffd700; letter-spacing: 2px; font-size: 0.9rem; }
+  .hero-btns {
+    display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;
+    animation: heroFadeIn 1s 0.9s ease both;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.85rem 2.2rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.3s;
+    cursor: pointer; border: none;
+  }
+  .btn-primary {
+    background: var(--blue);
+    color: var(--black);
+  }
+  .btn-primary:hover {
+    background: var(--blue-bright);
+    box-shadow: 0 0 30px rgba(0,170,255,0.5);
+    transform: translateY(-2px);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .btn-outline:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+    box-shadow: 0 0 20px rgba(0,170,255,0.15);
+    transform: translateY(-2px);
+  }
+  .btn-wa {
+    background: rgba(37,211,102,0.15);
+    color: #25d366;
+    border: 1px solid rgba(37,211,102,0.3);
+  }
+  .btn-wa:hover {
+    background: rgba(37,211,102,0.25);
+    box-shadow: 0 0 20px rgba(37,211,102,0.2);
+    transform: translateY(-2px);
+  }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    animation: bounce 2s infinite;
+    opacity: 0.5;
+  }
+  .hero-scroll span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--blue), transparent);
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: clamp(5rem, 10vw, 9rem) 5vw;
+    position: relative;
+  }
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-label::after {
+    content: ''; display: block;
+    width: 40px; height: 1px; background: var(--blue);
+  }
+  .section-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.2rem;
+  }
+  .section-sub {
+    color: var(--muted);
+    font-size: 1.05rem;
+    font-weight: 300;
+    max-width: 540px;
+    line-height: 1.7;
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    background: linear-gradient(180deg, var(--black) 0%, var(--darker) 50%, var(--black) 100%);
+  }
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 6vw, 7rem);
+    align-items: center;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-img-wrap {
+    position: relative;
+    aspect-ratio: 4/5;
+    border-radius: 4px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0a1020, #050a18);
+  }
+  .about-img-wrap::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(135deg, rgba(0,170,255,0.1), transparent 60%);
+  }
+  .about-img-fake {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 8rem;
+    color: rgba(0,170,255,0.06);
+    letter-spacing: 0.05em;
+    background:
+      radial-gradient(ellipse 60% 60% at 40% 50%, rgba(0,100,180,0.15) 0%, transparent 70%),
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 30px,
+        rgba(0,170,255,0.02) 30px,
+        rgba(0,170,255,0.02) 31px
+      );
+  }
+  .about-badge {
+    position: absolute;
+    bottom: -1.5rem; right: -1.5rem;
+    width: 120px; height: 120px;
+    background: var(--blue);
+    border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 0 40px rgba(0,170,255,0.4);
+    z-index: 2;
+  }
+  .about-badge strong {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2.2rem; color: var(--black); line-height: 1;
+  }
+  .about-badge span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--black); opacity: 0.7;
+  }
+  .about-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .stat-item {
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    backdrop-filter: blur(10px);
+    transition: border-color 0.3s;
+  }
+  .stat-item:hover { border-color: var(--border-hover); }
+  .stat-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2.6rem;
+    color: var(--blue); line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+  .about-points {
+    display: flex; flex-direction: column; gap: 1.1rem;
+    margin-top: 2rem;
+  }
+  .about-point {
+    display: flex; align-items: flex-start; gap: 1rem;
+  }
+  .point-icon {
+    width: 38px; height: 38px; min-width: 38px;
+    background: rgba(0,170,255,0.1);
+    border: 1px solid rgba(0,170,255,0.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  .point-text strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.95rem; font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.2rem;
+  }
+  .point-text p {
+    font-size: 0.88rem; color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ─── WHY CHOOSE ─── */
+  #why {
+    background: var(--darker);
+  }
+  #why::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(0,170,255,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .why-header { max-width: 1200px; margin: 0 auto 4rem; }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .why-card {
+    padding: 2.5rem 2rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    backdrop-filter: blur(16px);
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+  .why-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+  .why-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(0,170,255,0.1);
+  }
+  .why-card:hover::before { transform: scaleX(1); }
+  .why-icon {
+    font-size: 2rem; margin-bottom: 1.5rem;
+    display: block; line-height: 1;
+  }
+  .why-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .why-card p {
+    font-size: 0.88rem; color: var(--muted); line-height: 1.65;
+  }
+
+  /* ─── PROGRAMS ─── */
+  #programs {
+    background: var(--black);
+  }
+  .programs-header { max-width: 1200px; margin: 0 auto 4rem; }
+  .programs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .program-card {
+    position: relative;
+    padding: 2.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+    transition: all 0.4s;
+    cursor: default;
+  }
+  .program-card:nth-child(1) { grid-column: span 1; }
+  .program-card:nth-child(5) { grid-column: span 2; }
+  .program-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 120px;
+    background: linear-gradient(to top, rgba(0,170,255,0.05), transparent);
+    pointer-events: none;
+  }
+  .program-card:hover {
+    border-color: rgba(0,170,255,0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 40px rgba(0,170,255,0.08);
+  }
+  .program-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 4rem;
+    color: rgba(0,170,255,0.07);
+    line-height: 1;
+    margin-bottom: 1rem;
+    position: absolute; top: 1.5rem; right: 2rem;
+  }
+  .program-icon { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
+  .program-card h3 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.8rem; letter-spacing: 0.04em;
+    margin-bottom: 0.6rem;
+  }
+  .program-card p {
+    font-size: 0.88rem; color: var(--muted);
+    line-height: 1.65; margin-bottom: 1.5rem;
+  }
+  .program-tag {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: rgba(0,170,255,0.1);
+    border: 1px solid rgba(0,170,255,0.2);
+    border-radius: 100px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--blue);
+  }
+
+  /* ─── TESTIMONIALS ─── */
+  #testimonials {
+    background: var(--darker);
+    overflow: hidden;
+  }
+  #testimonials::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(0,80,160,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .testi-header { max-width: 1200px; margin: 0 auto 4rem; }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .testi-card {
+    padding: 2rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    backdrop-filter: blur(16px);
+    transition: all 0.3s;
+  }
+  .testi-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
+  }
+  .testi-stars { color: #ffd700; font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 2px; }
+  .testi-text {
+    font-size: 0.92rem; font-style: italic;
+    color: rgba(240,244,255,0.8);
+    line-height: 1.65;
+    margin-bottom: 1.5rem;
+  }
+  .testi-text::before { content: '\201C'; color: var(--blue); font-size: 1.5rem; line-height: 0; vertical-align: -0.4em; margin-right: 0.2rem; }
+  .testi-author {
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .testi-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), #0050a0);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1rem; color: white;
+  }
+  .testi-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.88rem; font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .testi-loc {
+    font-size: 0.75rem; color: var(--muted);
+  }
+
+  /* ─── GALLERY ─── */
+  #gallery {
+    background: var(--black);
+    padding-bottom: clamp(5rem, 10vw, 9rem);
+  }
+  .gallery-header { max-width: 1200px; margin: 0 auto 4rem; }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 1rem;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .gallery-item {
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    background: #0a0f1e;
+    transition: transform 0.4s;
+  }
+  .gallery-item:hover { transform: scale(0.98); }
+  .gallery-item:nth-child(1) { grid-column: span 5; aspect-ratio: 5/4; }
+  .gallery-item:nth-child(2) { grid-column: span 4; aspect-ratio: 4/4; }
+  .gallery-item:nth-child(3) { grid-column: span 3; aspect-ratio: 3/4; }
+  .gallery-item:nth-child(4) { grid-column: span 3; aspect-ratio: 3/4; }
+  .gallery-item:nth-child(5) { grid-column: span 4; aspect-ratio: 4/4; }
+  .gallery-item:nth-child(6) { grid-column: span 5; aspect-ratio: 5/4; }
+  .gallery-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.5rem;
+    position: relative; overflow: hidden;
+  }
+  .gallery-placeholder::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at var(--x, 50%) var(--y, 50%), rgba(0,140,220,0.15) 0%, transparent 70%),
+      repeating-linear-gradient(
+        45deg,
+        transparent, transparent 20px,
+        rgba(0,170,255,0.025) 20px, rgba(0,170,255,0.025) 21px
+      );
+  }
+  .gallery-item:nth-child(1) .gallery-placeholder { background: linear-gradient(135deg, #080e1a, #04080f); --x:30%; --y:40%; }
+  .gallery-item:nth-child(2) .gallery-placeholder { background: linear-gradient(135deg, #06101c, #080c14); --x:70%; --y:60%; }
+  .gallery-item:nth-child(3) .gallery-placeholder { background: linear-gradient(135deg, #050c16, #06090f); --x:50%; --y:30%; }
+  .gallery-item:nth-child(4) .gallery-placeholder { background: linear-gradient(135deg, #07101a, #050810); --x:40%; --y:70%; }
+  .gallery-item:nth-child(5) .gallery-placeholder { background: linear-gradient(135deg, #060e18, #050a12); --x:60%; --y:40%; }
+  .gallery-item:nth-child(6) .gallery-placeholder { background: linear-gradient(135deg, #08101c, #060910); --x:35%; --y:55%; }
+  .gallery-icon { font-size: 3rem; opacity: 0.12; position: relative; z-index: 1; }
+  .gallery-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(0,170,255,0.3);
+    position: relative; z-index: 1;
+  }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+    opacity: 0; transition: opacity 0.3s;
+    display: flex; align-items: flex-end; padding: 1.2rem;
+    z-index: 2;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--white);
+  }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--darker);
+  }
+  #contact::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 80%, rgba(0,170,255,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .contact-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 6vw, 7rem);
+    align-items: start;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+  .contact-item {
+    display: flex; align-items: flex-start; gap: 1.2rem;
+    padding: 1.6rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: border-color 0.3s;
+  }
+  .contact-item:hover { border-color: var(--border-hover); }
+  .contact-ico {
+    font-size: 1.3rem; width: 46px; height: 46px; min-width: 46px;
+    background: rgba(0,170,255,0.1);
+    border: 1px solid rgba(0,170,255,0.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .contact-item strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 0.4rem;
+  }
+  .contact-item p {
+    font-size: 0.95rem; color: var(--white);
+    line-height: 1.6;
+  }
+  .contact-item a { color: inherit; text-decoration: none; }
+  .contact-item a:hover { color: var(--blue); }
+  .hours-row { display: flex; justify-content: space-between; font-size: 0.9rem; }
+  .hours-row:not(:last-child) { margin-bottom: 0.4rem; }
+  .contact-btns { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-cta {
+    display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+    padding: 1.1rem 2rem;
+    border-radius: 2px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s; cursor: pointer; border: none;
+  }
+  .cta-maps {
+    background: var(--blue); color: var(--black);
+  }
+  .cta-maps:hover {
+    background: var(--blue-bright);
+    box-shadow: 0 0 30px rgba(0,170,255,0.4);
+  }
+  .cta-whatsapp {
+    background: rgba(37,211,102,0.15);
+    color: #25d366;
+    border: 1px solid rgba(37,211,102,0.3);
+  }
+  .cta-whatsapp:hover {
+    background: rgba(37,211,102,0.25);
+    box-shadow: 0 0 20px rgba(37,211,102,0.2);
+  }
+  .cta-insta {
+    background: rgba(193,53,132,0.12);
+    color: #e1306c;
+    border: 1px solid rgba(193,53,132,0.25);
+  }
+  .cta-insta:hover {
+    background: rgba(193,53,132,0.22);
+    box-shadow: 0 0 20px rgba(193,53,132,0.15);
+  }
+  .contact-form-wrap {
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .form-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 2rem; letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+  }
+  .form-sub { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    background: rgba(10,12,22,0.8);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 0.8rem 1rem;
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 12px rgba(0,170,255,0.1);
+  }
+  .form-group select { cursor: pointer; }
+  .form-group select option { background: #0a0a10; }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-submit {
+    margin-top: 0.5rem;
+    padding: 1rem;
+    background: var(--blue);
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.9rem; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    border: none; border-radius: 2px;
+    cursor: pointer; transition: all 0.3s;
+  }
+  .btn-submit:hover {
+    background: var(--blue-bright);
+    box-shadow: 0 0 30px rgba(0,170,255,0.4);
+    transform: translateY(-2px);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 3rem 5vw 2rem;
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; flex-wrap: wrap;
+    justify-content: space-between; align-items: center; gap: 2rem;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.8rem; letter-spacing: 0.08em;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--blue); }
+  .footer-tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); margin-top: 0.3rem;
+  }
+  .footer-copy {
+    font-size: 0.8rem; color: var(--muted);
+    text-align: right;
+  }
+
+  /* ─── FLOATING WHATSAPP ─── */
+  .wa-float {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    z-index: 990;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: #25d366;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 24px rgba(37,211,102,0.4);
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: waPulse 3s ease-in-out infinite;
+  }
+  .wa-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 36px rgba(37,211,102,0.6);
+  }
+  .wa-float svg { width: 28px; height: 28px; fill: white; }
+  @keyframes waPulse {
+    0%, 100% { box-shadow: 0 4px 24px rgba(37,211,102,0.4); }
+    50% { box-shadow: 0 4px 40px rgba(37,211,102,0.7), 0 0 0 8px rgba(37,211,102,0.1); }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    max-width: 1200px; margin: 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1100px) {
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
+    .testi-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .about-inner { grid-template-columns: 1fr; }
+    .about-visual { display: none; }
+    .programs-grid { grid-template-columns: 1fr 1fr; }
+    .program-card:nth-child(5) { grid-column: span 1; }
+    .contact-inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 700px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .why-grid { grid-template-columns: 1fr; }
+    .programs-grid { grid-template-columns: 1fr; }
+    .program-card:nth-child(1),
+    .program-card:nth-child(5) { grid-column: span 1; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-item { grid-column: span 1 !important; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+    .footer-copy { text-align: left; }
+  }
+  @media (max-width: 480px) {
+    .gallery-grid { grid-template-columns: 1fr; }
+    .hero-btns { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">BE <span>FIT</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#programs">Programs</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact" class="nav-cta">Join Now</a></li>
+  </ul>
+  <button class="hamburger" id="menuBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#why" onclick="closeMobile()">Why Us</a>
+  <a href="#programs" onclick="closeMobile()">Programs</a>
+  <a href="#testimonials" onclick="closeMobile()">Reviews</a>
+  <a href="#gallery" onclick="closeMobile()">Gallery</a>
+  <a href="#contact" onclick="closeMobile()">Join Now</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-scanlines"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Be Fit Fitness Centre &mdash; Othera, Thiruvalla</div>
+    <h1 class="hero-title">GAIN THE<br><span class="accent">DREAM!</span></h1>
+    <p class="hero-sub">Transform your body, elevate your strength, and redefine what you're capable of. Where discipline meets results.</p>
+    <div class="hero-rating">
+      <span class="stars">★★★★★</span>
+      <strong>4.9</strong>
+      <span style="color:var(--muted)">/ 163 Reviews</span>
+    </div>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-primary">Join Now &rarr;</a>
+      <a href="https://wa.me/919656152535" target="_blank" class="btn btn-wa">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a href="https://instagram.com" target="_blank" class="btn btn-outline">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        Instagram
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-visual reveal">
+      <div class="about-img-wrap">
+        <div class="about-img-fake">
+          <svg viewBox="0 0 200 300" width="160" style="opacity:0.07" fill="none" stroke="rgba(0,170,255,0.5)" stroke-width="1">
+            <circle cx="100" cy="50" r="22"/>
+            <line x1="100" y1="72" x2="100" y2="160"/>
+            <line x1="100" y1="100" x2="60" y2="130"/>
+            <line x1="100" y1="100" x2="140" y2="130"/>
+            <line x1="100" y1="160" x2="75" y2="220"/>
+            <line x1="100" y1="160" x2="125" y2="220"/>
+            <ellipse cx="42" cy="128" rx="18" ry="8"/>
+            <ellipse cx="158" cy="128" rx="18" ry="8"/>
+          </svg>
+        </div>
+      </div>
+      <div class="about-badge">
+        <strong>4.9</strong>
+        <span>★ Rating</span>
+      </div>
+    </div>
+    <div>
+      <div class="section-label reveal">Our Story</div>
+      <h2 class="section-title reveal reveal-delay-1">Built for <br>Serious Results</h2>
+      <p class="section-sub reveal reveal-delay-2">Be Fit Fitness Centre was founded with a single mission: to build a space where anyone — beginner or veteran — can train hard, grow strong, and transform their life. We're not just a gym. We're a community.</p>
+      <div class="about-points" style="margin-top: 2.5rem;">
+        <div class="about-point reveal reveal-delay-1">
+          <div class="point-icon">⚡</div>
+          <div class="point-text">
+            <strong>Electrifying Atmosphere</strong>
+            <p>Every session is fueled by energy that keeps you pushing harder than you thought possible.</p>
+          </div>
+        </div>
+        <div class="about-point reveal reveal-delay-2">
+          <div class="point-icon">🔧</div>
+          <div class="point-text">
+            <strong>Premium, Well-Maintained Equipment</strong>
+            <p>Our machines and free weights are regularly serviced and kept in top-tier condition.</p>
+          </div>
+        </div>
+        <div class="about-point reveal reveal-delay-3">
+          <div class="point-icon">🤝</div>
+          <div class="point-text">
+            <strong>Trainers Who Actually Care</strong>
+            <p>Friendly, knowledgeable coaches who celebrate your progress and push you past limits.</p>
+          </div>
+        </div>
+        <div class="about-point reveal reveal-delay-4">
+          <div class="point-icon">✨</div>
+          <div class="point-text">
+            <strong>Spotlessly Clean Space</strong>
+            <p>A hygienic, fresh environment maintained to the highest standards — every single day.</p>
+          </div>
+        </div>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-item">
+          <div class="stat-num">163+</div>
+          <div class="stat-label">Five-Star Reviews</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">4.9★</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">5</div>
+          <div class="stat-label">Programs Offered</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">7</div>
+          <div class="stat-label">Days Open</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHY CHOOSE US -->
+<section id="why">
+  <div class="why-header">
+    <div class="section-label reveal">Our Edge</div>
+    <h2 class="section-title reveal reveal-delay-1">Why Train With Us</h2>
+    <p class="section-sub reveal reveal-delay-2">Everything here is designed to help you get results — faster, smarter, and with the right support behind you.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card reveal reveal-delay-1">
+      <span class="why-icon">🏋️</span>
+      <h3>Expert Trainers</h3>
+      <p>Certified coaches with deep expertise in strength, conditioning, and body transformation. Personalized plans tailored to your goals.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-2">
+      <span class="why-icon">⚙️</span>
+      <h3>Premium Equipment</h3>
+      <p>Commercial-grade machines, heavy free weights, and dedicated zones for every training style — all kept in peak condition.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-3">
+      <span class="why-icon">🔥</span>
+      <h3>Positive Environment</h3>
+      <p>No judgment, only motivation. A high-energy culture where members uplift each other and celebrate every milestone.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-4">
+      <span class="why-icon">💪</span>
+      <h3>Strength Training Focus</h3>
+      <p>Structured progressive overload programs that build real, lasting strength — not just aesthetics. Science-backed coaching.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROGRAMS -->
+<section id="programs">
+  <div class="programs-header">
+    <div class="section-label reveal">Training Programs</div>
+    <h2 class="section-title reveal reveal-delay-1">Find Your Path</h2>
+    <p class="section-sub reveal reveal-delay-2">Whether you're here to bulk up, lean out, or simply move better — we have a program built exactly for you.</p>
+  </div>
+  <div class="programs-grid">
+    <div class="program-card reveal">
+      <div class="program-num">01</div>
+      <span class="program-icon">⬆️</span>
+      <h3>Weight Gain</h3>
+      <p>Structured mass-building protocols combining hypertrophy training with precise nutrition guidance to pack on lean muscle efficiently.</p>
+      <span class="program-tag">Bulk &amp; Build</span>
+    </div>
+    <div class="program-card reveal reveal-delay-1">
+      <div class="program-num">02</div>
+      <span class="program-icon">🔽</span>
+      <h3>Weight Loss</h3>
+      <p>High-intensity training and metabolic conditioning designed to torch fat, preserve muscle, and reshape your physique sustainably.</p>
+      <span class="program-tag">Fat Burn</span>
+    </div>
+    <div class="program-card reveal reveal-delay-2">
+      <div class="program-num">03</div>
+      <span class="program-icon">💪</span>
+      <h3>Muscle Building</h3>
+      <p>Progressive resistance programs targeting every muscle group with precision — for a sculpted, powerful physique that performs as good as it looks.</p>
+      <span class="program-tag">Hypertrophy</span>
+    </div>
+    <div class="program-card reveal reveal-delay-3">
+      <div class="program-num">04</div>
+      <span class="program-icon">🏋️</span>
+      <h3>Strength Training</h3>
+      <p>Powerlifting-inspired methods focused on the big compound lifts — build a foundation of raw, functional strength that carries over to everything.</p>
+      <span class="program-tag">Power &amp; Strength</span>
+    </div>
+    <div class="program-card reveal reveal-delay-4">
+      <div class="program-num">05</div>
+      <span class="program-icon">🎯</span>
+      <h3>Personal Fitness Coaching</h3>
+      <p>One-on-one coaching tailored entirely to you. Your timeline, your goals, your body — completely individualized programming with dedicated attention from your coach.</p>
+      <span class="program-tag">1-on-1 Coaching</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testi-header">
+    <div class="section-label reveal">Member Reviews</div>
+    <h2 class="section-title reveal reveal-delay-1">What They're Saying</h2>
+    <p class="section-sub reveal reveal-delay-2">Rated 4.9 stars by over 163 members across Thiruvalla. Real people. Real results.</p>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal reveal-delay-1">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">Great gym with a genuinely positive vibe. The equipment is solid and the trainers make sure you actually know what you're doing.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">A</div>
+        <div>
+          <div class="testi-name">Anoop Varghese</div>
+          <div class="testi-loc">Othera, Thiruvalla</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal reveal-delay-2">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">The trainer here is both supportive and deeply knowledgeable. He adjusted my program after just two sessions and the difference was immediate.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">R</div>
+        <div>
+          <div class="testi-name">Rijo Thomas</div>
+          <div class="testi-loc">Thiruvalla, Kerala</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal reveal-delay-3">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">One of the cleanest gyms I've been to in Kerala. Well-maintained equipment, tidy changing areas, and a vibe that keeps you coming back every day.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">S</div>
+        <div>
+          <div class="testi-name">Sreelekha Nair</div>
+          <div class="testi-loc">Pathanamthitta</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal reveal-delay-4">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">The atmosphere here is incredibly motivating. You walk in and you just want to work. Lost 8 kg in three months with their guidance.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">J</div>
+        <div>
+          <div class="testi-name">Jijo Mathew</div>
+          <div class="testi-loc">Chengannur</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gallery-header">
+    <div class="section-label reveal">Gallery</div>
+    <h2 class="section-title reveal reveal-delay-1">Inside Be Fit</h2>
+    <p class="section-sub reveal reveal-delay-2">A premium training environment built for serious athletes and beginners alike.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item reveal">
+      <div class="gallery-placeholder">
+        <div class="gallery-icon">🏋️</div>
+        <div class="gallery-label">Weight Floor</div>
+      </div>
+      <div class="gallery-overlay"><span>Main Training Floor</span></div>
+    </div>
+    <div class="gallery-item reveal reveal-delay-1">
+      <div class="gallery-placeholder">
+        <div class="gallery-icon">⚙️</div>
+        <div class="gallery-label">Machines Zone</div>
+      </div>
+      <div class="gallery-overlay"><span>Machine Zone</span></div>
+    </div>
+    <div class="gallery-item reveal reveal-delay-2">
+      <div class="gallery-placeholder">
+        <div class="gallery-icon">💪</div>
+        <div class="gallery-label">Free Weights</div>
+      </div>
+      <div class="gallery-overlay"><span>Free Weights Area</span></div>
+    </div>
+    <div class="gallery-item reveal reveal-delay-1">
+      <div class="gallery-placeholder">
+        <div class="gallery-icon">🔥</div>
+        <div class="gallery-label">Cardio Zone</div>
+      </div>
+      <div class="gallery-overlay"><span>Cardio Section</span></div>
+    </div>
+    <div class="gallery-item reveal reveal-delay-2">
+      <div class="gallery-placeholder">
+        <div class="gallery-icon">🎯</div>
+        <div class="gallery-label">Training Area</div>
+      </div>
+      <div class="gallery-overlay"><span>Functional Training</span></div>
+    </div>
+    <div class="gallery-item reveal reveal-delay-3">
+      <div class="gallery-placeholder">
+        <div class="gallery-icon">✨</div>
+        <div class="gallery-label">Reception</div>
+      </div>
+      <div class="gallery-overlay"><span>Reception & Lounge</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div>
+      <div class="section-label reveal">Get In Touch</div>
+      <h2 class="section-title reveal reveal-delay-1">Start Your<br>Journey Today</h2>
+      <p class="section-sub reveal reveal-delay-2" style="margin-bottom: 2.5rem;">Walk in, call us, or drop a message. Our team is ready to get you started.</p>
+      <div class="contact-info">
+        <div class="contact-item reveal reveal-delay-1">
+          <div class="contact-ico">📞</div>
+          <div>
+            <strong>Phone</strong>
+            <p><a href="tel:+919656152535">+91 96561 52535</a></p>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-2">
+          <div class="contact-ico">📍</div>
+          <div>
+            <strong>Location</strong>
+            <p>Kulaniyil Buildings, Othera<br>Thiruvalla, Kerala 689551</p>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-3">
+          <div class="contact-ico">🕐</div>
+          <div>
+            <strong>Opening Hours</strong>
+            <div class="hours-row"><span>Morning Session</span><span style="color:var(--blue)">5:00 AM – 10:00 AM</span></div>
+            <div class="hours-row"><span>Evening Session</span><span style="color:var(--blue)">4:00 PM – 9:00 PM</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-btns" style="margin-top: 2rem;">
+        <a href="https://maps.google.com/?q=Kulaniyil+Buildings+Othera+Thiruvalla+Kerala+689551" target="_blank" class="contact-cta cta-maps reveal reveal-delay-1">
+          📍 Open in Google Maps
+        </a>
+        <a href="https://wa.me/919656152535" target="_blank" class="contact-cta cta-whatsapp reveal reveal-delay-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#25d366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Chat on WhatsApp
+        </a>
+        <a href="https://instagram.com" target="_blank" class="contact-cta cta-insta reveal reveal-delay-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="#e1306c" stroke="none"/></svg>
+          Follow on Instagram
+        </a>
+      </div>
+    </div>
+    <div class="contact-form-wrap reveal">
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">BE <span>FIT</span> FITNESS CENTRE</div>
+      <div class="footer-tagline">Gain The Dream &mdash; Othera, Thiruvalla</div>
+    </div>
+    <div class="footer-copy">
+      <p>&copy; 2025 Be Fit Fitness Centre. All rights reserved.</p>
+      <p style="margin-top: 0.3rem;">Kulaniyil Buildings, Othera, Thiruvalla, Kerala 689551</p>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/919656152535" target="_blank" class="wa-float" title="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script>
+  // NAV scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMobile() {
+    mobileMenu.classList.remove('open');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Form submit
+  function submitForm() {
+    const btn = document.querySelector('.btn-submit');
+    btn.textContent = '✓ Enquiry Sent!';
+    btn.style.background = '#25d366';
+    btn.style.color = 'white';
+    setTimeout(() => {
+      btn.textContent = 'Send Enquiry →';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 3000);
+  }
+
+  // Hero particle shimmer on mouse move
+  const heroBg = document.querySelector('.hero-bg');
+  document.getElementById('hero').addEventListener('mousemove', (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    heroBg.style.background = `
+      radial-gradient(ellipse 60% 50% at ${x}% ${y}%, rgba(0,140,220,0.2) 0%, transparent 65%),
+      radial-gradient(ellipse 70% 60% at 50% 40%, rgba(0,120,200,0.1) 0%, transparent 70%),
+      linear-gradient(160deg, #050508 0%, #08101e 40%, #050508 100%)
+    `;
+  });
+</script>
+</body>
+</html>
